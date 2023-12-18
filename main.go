@@ -64,7 +64,7 @@ func Build() (*Engine, error) {
 }
 
 func Routes(app *Engine) error {
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
 	storage := storage.New(ctx, app.Configs)

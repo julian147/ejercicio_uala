@@ -25,7 +25,7 @@ func New(ctx context.Context, config config.Configuration) *Storage {
 		log.Fatal("config url-db is invalid")
 	}
 	opts := options.Client().ApplyURI("mongodb+srv://juliangonzalofernandez:wRscvt6xKM5ABVC5@clusterchallenge.cfzqmlt.mongodb.net/?retryWrites=true&w=majority").SetServerAPIOptions(serverAPI)
-	opts.SetTimeout(10 * time.Second)
+	opts.SetTimeout(30 * time.Second)
 	client, err := mongo.Connect(ctx, opts)
 	if err != nil {
 		log.Fatal(err)
