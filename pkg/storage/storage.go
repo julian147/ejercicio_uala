@@ -32,7 +32,7 @@ func New(ctx context.Context, config config.Configuration) *Storage {
 	}
 
 	if err := client.Database("tweet").RunCommand(context.TODO(), bson.D{{"ping", 1}}).Err(); err != nil {
-		log.Fatalf("do a ping in db: %w", err)
+		log.Fatalf("do a ping in db: %s", err.Error())
 		panic(err)
 	}
 	color.Green("You successfully connected to MongoDB!")
