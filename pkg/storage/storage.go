@@ -21,6 +21,9 @@ type Storage struct {
 
 func New(ctx context.Context, config config.Configuration) *Storage {
 	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
+	if config.GetString("url-db", "") == "" {
+		log.Fatal("config url-db is invalid")
+	}
 	opts := options.Client().ApplyURI(config.GetString("url-db", "")).SetServerAPIOptions(serverAPI)
 
 	client, err := mongo.Connect(ctx, opts)
