@@ -82,10 +82,10 @@ func Routes(app *Engine) error {
 	port := os.Getenv("PORT")
 	log.Printf("PORT: %s\n", port)
 	if port == "" {
-		port = "3000"
+		port = ":3000"
 	}
 
-	err := http.ListenAndServe(port, r)
+	err := http.ListenAndServe(":"+port, r)
 	if err != nil {
 		return err
 	}
