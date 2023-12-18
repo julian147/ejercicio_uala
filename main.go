@@ -11,6 +11,7 @@ import (
 	"gopkg.in/yaml.v3"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"path/filepath"
 	"time"
 )
@@ -77,7 +78,12 @@ func Routes(app *Engine) error {
 	r.Post("/v1/follow/{userID}", Handler(handlerTweet.Follow))
 	r.Post("/v1/timeline", Handler(handlerTweet.ViewTimeline))
 
-	err := http.ListenAndServe(app.Configs.GetString("port", ""), r)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "3000"
+	}
+
+	err := http.ListenAndServe(port, r)
 	if err != nil {
 		return err
 	}
