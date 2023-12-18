@@ -35,7 +35,6 @@ func buildConfig() config.Configuration {
 		panic(err)
 	}
 	return cfgTest
-
 }
 
 func buildConfigFromLocalFile() (*properties.Properties, error) {
@@ -71,7 +70,7 @@ func Routes(app *Engine) error {
 	storage := storage.New(ctx, app.Configs)
 	defer storage.Close(ctx)
 
-	tweetService := tweet.New(storage)
+	tweetService := tweet.New(storage, app.Configs.GetInt("limit", 0))
 	handlerTweet := handlers.NewTweetHandler(tweetService)
 	r := chi.NewRouter()
 	r.Post("/v1/tweet", Handler(handlerTweet.Create))

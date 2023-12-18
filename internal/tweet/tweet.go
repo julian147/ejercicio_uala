@@ -6,8 +6,6 @@ import (
 	"time"
 )
 
-//go:generate mockgen -source=tweet.go -destination=tweet_mock.go -package=tweet
-
 type Tweet struct {
 	ID        string
 	Data      string
@@ -37,16 +35,22 @@ type Storage interface {
 
 type Manager struct {
 	storage Storage
+	limit   int
 }
 
-func New(storage Storage) *Manager {
+func New(storage Storage, limit int) *Manager {
 	return &Manager{
 		storage: storage,
+		limit:   limit,
 	}
 }
 
 func (s *Manager) CreateTweet(ctx context.Context, userID string, tweetRequest *Request) error {
 	var user *User
+
+	if len(tweetRequest.Data) > s.limit {
+		return fmt.Errorf("tweet outside of limits")
+	}
 
 	user, err := s.storage.GetUser(ctx, userID)
 	if err != nil {
