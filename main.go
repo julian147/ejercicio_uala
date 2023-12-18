@@ -10,6 +10,7 @@ import (
 	"github.com/magiconair/properties"
 	"gopkg.in/yaml.v3"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -79,6 +80,7 @@ func Routes(app *Engine) error {
 	r.Post("/v1/timeline", Handler(handlerTweet.ViewTimeline))
 
 	port := os.Getenv("PORT")
+	log.Printf("PORT: %s\n", port)
 	if port == "" {
 		port = "3000"
 	}
