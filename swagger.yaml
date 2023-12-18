@@ -1,0 +1,64 @@
+openapi: 3.0.0
+info:
+  title: Challenge
+  version: 1.0.0
+servers:
+  - url: 'https://challenge-uala-815926fa02fe.herokuapp.com'
+paths:
+  /v1/tweet:
+    post:
+      tags:
+        - General
+      summary: TWEET
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                data: tweet 336999999
+      parameters:
+        - name: x-user-id
+          in: header
+          schema:
+            type: string
+          example: user1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /v1/follow/user1:
+    post:
+      tags:
+        - General
+      summary: FOLLOW
+      requestBody:
+        content: {}
+      parameters:
+        - name: x-user-id
+          in: header
+          schema:
+            type: string
+          example: user2
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /v1/timeline:
+    get:
+      tags:
+        - General
+      summary: TIMELINE
+      parameters:
+        - name: x-user-id
+          in: header
+          schema:
+            type: string
+          example: user2
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}

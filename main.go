@@ -4,7 +4,7 @@ import (
 	"challenge/config"
 	"challenge/handlers"
 	"challenge/internal/tweet"
-	"challenge/pkg/storage"
+	"challenge/storage"
 	"context"
 	"github.com/go-chi/chi"
 	"github.com/magiconair/properties"
