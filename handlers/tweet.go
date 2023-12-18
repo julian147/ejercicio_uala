@@ -62,6 +62,10 @@ func (h *HandlerTweet) Follow(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if userID == userIDToFollow {
+		handleError(generateErrorResponse("user ID to follow must be other", http.StatusBadRequest), w)
+	}
+
 	err := h.service.Follow(r.Context(), userID, userIDToFollow)
 	if err != nil {
 		handleError(generateErrorResponse(err.Error(), http.StatusInternalServerError), w)
@@ -77,18 +81,13 @@ func (h *HandlerTweet) ViewTimeline(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userIDToFollow := chi.URLParam(r, "userID")
-	if strings.TrimSpace(userID) == "" {
-		handleError(generateErrorResponse("user id to follow is invalid", http.StatusBadRequest), w)
-		return
-	}
-
-	err := h.service.Follow(r.Context(), userID, userIDToFollow)
+	timeLine, err := h.service.ViewTimeline(r.Context(), userID)
 	if err != nil {
 		handleError(generateErrorResponse(err.Error(), http.StatusInternalServerError), w)
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(timeLine)
 }
 
 func generateErrorResponse(msg string, status int) *Error {

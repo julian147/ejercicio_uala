@@ -88,6 +88,12 @@ func (s *Manager) Follow(ctx context.Context, userID string, userIDToFollow stri
 		return fmt.Errorf("getting user: %w", err)
 	}
 
+	for _, userFollowed := range user.Followed {
+		if userFollowed == userIDToFollow {
+			return fmt.Errorf("you are follow this user")
+		}
+	}
+
 	userToFollow, err := s.storage.GetUser(ctx, userIDToFollow)
 	if err != nil {
 		return fmt.Errorf("getting user: %w", err)

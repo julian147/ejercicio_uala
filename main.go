@@ -10,7 +10,6 @@ import (
 	"github.com/magiconair/properties"
 	"gopkg.in/yaml.v3"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -77,12 +76,11 @@ func Routes(app *Engine) error {
 	r := chi.NewRouter()
 	r.Post("/v1/tweet", Handler(handlerTweet.Create))
 	r.Post("/v1/follow/{userID}", Handler(handlerTweet.Follow))
-	r.Post("/v1/timeline", Handler(handlerTweet.ViewTimeline))
+	r.Get("/v1/timeline", Handler(handlerTweet.ViewTimeline))
 
 	port := os.Getenv("PORT")
-	log.Printf("PORT: %s\n", port)
 	if port == "" {
-		port = ":3000"
+		port = app.Configs.GetString("port", "")
 	}
 
 	err := http.ListenAndServe(":"+port, r)
